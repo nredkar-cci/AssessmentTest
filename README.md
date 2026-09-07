@@ -1,4 +1,3 @@
 # AssessmentTest
-This repository has been created for assessment test. 
-Special Note: This project will be .NET project and name of project doesn't signify the project content. This was done soo the project setup time is cut off from the time allocated for assessment test. This was requested person supervising the .NET assessment test.
-
+This is a **.NET project** — the repository name does not reflect the project's content.
+The repository was pre-created with this name so that project setup time is excluded from the time allocated for the assessment test. This was requested by the person supervising the .NET assessment test.
