@@ -5,6 +5,7 @@ using AssessmentTest.Application.IRepository.IPlanRepository;
 using AssessmentTest.Application.IRepository.IUserRepository;
 using AssessmentTest.Application.Mappings;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,13 +16,17 @@ namespace AssessmentTest.Application.Services.PlanService
     {
         private readonly IPlanRepository _planRepository;
 
-        public PlanService(IPlanRepository planRepository)
+        private readonly ILogger _logger;
+
+        public PlanService(IPlanRepository planRepository, ILogger<IPlanService> logger)
         {
             _planRepository = planRepository;
+            _logger = logger;
         }
 
         public async Task<PlanResponse> AddAsync(PlanRequest planRequest)
         {
+
             var created = await _planRepository.AddAsync(planRequest.ToEntity());
 
             return PlanMappings.ToResponse(created);

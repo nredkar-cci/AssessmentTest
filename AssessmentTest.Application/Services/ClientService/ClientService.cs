@@ -7,6 +7,7 @@ using AssessmentTest.Application.IRepository.IUserRepository;
 using AssessmentTest.Application.Mappings;
 using AssessmentTest.Domain.Entities;
 using AssessmentTest.Domain.Enums;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,15 +24,23 @@ namespace AssessmentTest.Application.Services.ClientService
 
         private readonly IFitnessCoachRepository _fitnessCoachRepository;
 
-        public ClientService(IClientRepository clientRepository, IUsersRepository userRepository, IPlanRepository planRepository, IFitnessCoachRepository fitnessCoachRepository)
+        private readonly ILogger _logger;
+
+        public ClientService(IClientRepository clientRepository,
+            IUsersRepository userRepository,
+            IPlanRepository planRepository,
+            IFitnessCoachRepository fitnessCoachRepository,
+            ILogger<IClientService> logger)
         {
             _clientRepository = clientRepository;
             _userRepository = userRepository;
             _planRepository = planRepository;
             _fitnessCoachRepository = fitnessCoachRepository;
+            _logger = logger;
 
         }
 
+        #region Public Methods
         public async Task<ClientResponse?> ActivatePlan(Guid id)
         {
             try
@@ -76,8 +85,9 @@ namespace AssessmentTest.Application.Services.ClientService
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Issue occured while activating the plan");
                 throw;
             }
             return null;
@@ -113,8 +123,9 @@ namespace AssessmentTest.Application.Services.ClientService
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Issue occured while making user a client");
                 throw;
             }
 
@@ -150,11 +161,13 @@ namespace AssessmentTest.Application.Services.ClientService
                 }
                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Issue occured while retriving client using ID");
                 throw;
             }
             return null;
         }
+        #endregion
     }
 }

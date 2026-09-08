@@ -5,8 +5,10 @@ using AssessmentTest.Application.IRepository.IPlanRepository;
 using AssessmentTest.Application.IRepository.IUserRepository;
 using AssessmentTest.Application.Mappings;
 using AssessmentTest.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace AssessmentTest.Application.Services.FitnessCoachService
@@ -17,10 +19,13 @@ namespace AssessmentTest.Application.Services.FitnessCoachService
 
         private readonly IUsersRepository _userRepository;
 
-        public FitnessCoachService(IFitnessCoachRepository fitnessCoachRepository, IUsersRepository userRepository)
+        private readonly ILogger _logger;
+
+        public FitnessCoachService(IFitnessCoachRepository fitnessCoachRepository, IUsersRepository userRepository, ILogger<IFitnessCoachService> logger)
         {
             _fitnessCoachRepository = fitnessCoachRepository;
             _userRepository = userRepository;
+            _logger = logger;
 
         }
 
@@ -57,7 +62,10 @@ namespace AssessmentTest.Application.Services.FitnessCoachService
                 }
 
             }
-            catch(Exception) {
+            catch(Exception ex) {
+
+                _logger.LogError(ex, "Issue occured while making user a coach");
+
                 throw;
             }
             return null;
@@ -66,17 +74,25 @@ namespace AssessmentTest.Application.Services.FitnessCoachService
 
         public async Task<List<FitnessCoachResponse>> GetAllAsync()
         {
-            var fitness = await _fitnessCoachRepository.GetAllAsync();
+            try
+            {
+                var fitness = await _fitnessCoachRepository.GetAllAsync();
 
-            List<User> users = await _userRepository.GetAllAsync();
+                List<User> users = await _userRepository.GetAllAsync();
 
-            return fitness
-                .Join(users,
-                      fitnessCoach => fitnessCoach.UserId,
-                      user => user.Id,
-                      (fitnessCoach, user) => fitnessCoach.ToResponse(user))
-                .ToList();
-          
+                return fitness
+                    .Join(users,
+                          fitnessCoach => fitnessCoach.UserId,
+                          user => user.Id,
+                          (fitnessCoach, user) => fitnessCoach.ToResponse(user))
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Issue occured while retriving all the fitness coaches");
+
+                throw;
+            }
         }
 
         public async Task<FitnessCoachResponse?> GetByIdAsync(Guid id)
@@ -91,8 +107,10 @@ namespace AssessmentTest.Application.Services.FitnessCoachService
                     return fitnessCoach.ToResponse(user);
                 }
             }
-            catch (Exception )
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Issue occured while retriving fitness coach by Id");
+
                 throw;
             }
             return null;
