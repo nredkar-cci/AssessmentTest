@@ -147,7 +147,7 @@ namespace AssessmentTest.Application.Services.ClientService
                 var client = await _clientRepository.GetByIdAsync(id);
                 if (client != null)
                 {
-                    var user = await _userRepository.GetByIdAsync(client.Id);
+                    var user = await _userRepository.GetByIdAsync(client.UserId);
 
 
                     var fitnessCoach = await _fitnessCoachRepository.GetByIdAsync(client.FitnessCoachId ?? new Guid());

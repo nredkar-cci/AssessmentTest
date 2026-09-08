@@ -14,7 +14,7 @@ namespace AssessmentTest.Application.Mappings
             CoachName = coach.Name,
             ClientName = user.Name,
             PlanStatus = client.PlanStatus,
-            ExpiryData = client.PlanExpiry,
+            ExpiryDate = client.PlanExpiry,
             PlanRate = plan.Rate,
             PlanType = plan.PlanName
         };

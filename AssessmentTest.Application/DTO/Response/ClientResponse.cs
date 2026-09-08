@@ -17,7 +17,7 @@ namespace AssessmentTest.Application.DTO.Response
 
        public string? CoachName { get; set; }
 
-       public DateTime? ExpiryData { get; set; }
+       public DateTime? ExpiryDate { get; set; }
 
        public PlanStatus PlanStatus { get; set; }
     }
