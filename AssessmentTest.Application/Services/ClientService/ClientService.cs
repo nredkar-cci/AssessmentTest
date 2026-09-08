@@ -97,6 +97,13 @@ namespace AssessmentTest.Application.Services.ClientService
         {
             try
             {
+                var searchedClient = (await _clientRepository.GetAllAsync()).Where(x => x.UserId == clientRequest.UserId || (clientRequest.UserId == null && x.UserId == currentUserId)).ToList().SingleOrDefault();
+
+                if (searchedClient != null)
+                {
+                    throw new Exception("This user already has a plan");
+                }
+
                 var user = await _userRepository.GetByIdAsync(clientRequest.UserId ?? currentUserId);
 
                 var fitnessCoach = await _fitnessCoachRepository.GetByIdAsync(clientRequest.FitnessCoachId);

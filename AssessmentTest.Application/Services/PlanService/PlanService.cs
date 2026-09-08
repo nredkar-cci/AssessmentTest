@@ -40,11 +40,20 @@ namespace AssessmentTest.Application.Services.PlanService
 
         public async Task<PlanResponse?> GetByIdAsync(Guid id)
         {
-            var plan = await _planRepository.GetByIdAsync(id);
+            try
+            {
+                var plan = await _planRepository.GetByIdAsync(id);
 
-            if (plan != null)
-            { 
-                return PlanMappings.ToResponse(plan);
+                if (plan != null)
+                {
+                    return PlanMappings.ToResponse(plan);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Issue occured while getting plans by Id");
+
+                throw;
             }
             return null;
         }
