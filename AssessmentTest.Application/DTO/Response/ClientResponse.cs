@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AssessmentTest.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,5 +14,9 @@ namespace AssessmentTest.Application.DTO.Response
        public double? PlanRate { get; set; }
 
        public string? CoachName { get; set; }
+
+       public DateTime? ExpiryData { get; set; }
+
+       public PlanStatus PlanStatus { get; set; }
     }
 }

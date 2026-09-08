@@ -2,8 +2,8 @@ namespace AssessmentTest.Domain.Enums
 {
     public enum Role
     {
-      SuperAdmin,
-      Admin,
-      User
+      SuperAdmin = 1,
+      Admin = 2,
+      User = 3
     }
 }

@@ -6,8 +6,8 @@ namespace AssessmentTest.Domain.Enums
 {
     public enum PlanType
     {
-        PerDay,
-        Monthly,
-        Yearly
+        PerDay = 1,
+        Monthly = 2,
+        Yearly = 3
     }
 }

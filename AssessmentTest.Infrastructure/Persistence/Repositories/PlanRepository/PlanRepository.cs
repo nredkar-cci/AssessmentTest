@@ -21,5 +21,7 @@ namespace AssessmentTest.Infrastructure.Persistence.Repositories.PlanRepository
         public Task<List<Plan>> GetAllAsync() => _baseRepository.GetAllAsync();
 
         public Task<Plan> AddAsync(Plan plan) => _baseRepository.AddAsync(plan);
+
+        public Task<bool> RemoveAsync(Guid id) => _baseRepository.SoftDeleteAsync(id);
     }
 }

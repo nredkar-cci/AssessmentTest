@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AssessmentTest.Application.Mappings
 {
-    internal class ClientMapping
+    internal class ClientMappings
     {
     }
 }

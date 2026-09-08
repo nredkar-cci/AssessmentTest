@@ -13,5 +13,7 @@ namespace AssessmentTest.Application.Services.PlanService
         Task<List<PlanResponse>> GetAllAsync();
 
         Task<PlanResponse> AddAsync(PlanRequest planRequest);
+
+        Task<bool> RemoveAsync(Guid id);
     }
 }

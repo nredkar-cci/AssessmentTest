@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AssessmentTest.Application.Services.ClientService
 {
-    public class ClientService
+    public class ClientService : IClientService
     {
        
     }

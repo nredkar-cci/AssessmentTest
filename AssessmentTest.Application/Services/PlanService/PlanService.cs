@@ -43,5 +43,10 @@ namespace AssessmentTest.Application.Services.PlanService
             }
             return null;
         }
+
+        public Task<bool> RemoveAsync(Guid id)
+        {
+            return _planRepository.RemoveAsync(id);
+        }
     }
 }

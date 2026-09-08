@@ -11,6 +11,8 @@ namespace AssessmentTest.Application.DTO.Response
         public Guid PlanId { get; set; }
 
         public PlanType PlanType { get; set; }
+
+        public string? PlanName { get; set; }
        
         public double Rate { get; set; }
 

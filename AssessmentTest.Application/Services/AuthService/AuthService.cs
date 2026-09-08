@@ -35,7 +35,7 @@ namespace AssessmentTest.Application.Services.AuthService
                 Email = request.Email,
                 Phone = request.Phone,
                 Gender = request.Gender,
-                Role = Role.Admin
+                Role = Role.User
             };
 
             user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);

@@ -1,5 +1,5 @@
-using AssessmentTest.Application.DTO.Request.User;
-using AssessmentTest.Application.DTO.Response.User;
+using AssessmentTest.Application.DTO.Request;
+using AssessmentTest.Application.DTO.Response;
 using AssessmentTest.Application.Security;
 using AssessmentTest.Application.Services.UserService;
 using AssessmentTest.Domain.Enums;
@@ -8,10 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AssessmentTest.Api.Controllers
 {
-    /// <summary>
-    /// Reference controller for role-based auth: [Authorize] on the class is the
-    /// floor, per-action [Authorize(Roles = ...)] narrows it further.
-    /// </summary>
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]

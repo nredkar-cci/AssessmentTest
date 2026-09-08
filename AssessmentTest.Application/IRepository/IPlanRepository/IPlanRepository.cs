@@ -12,5 +12,7 @@ namespace AssessmentTest.Application.IRepository.IPlanRepository
         Task<List<Plan>> GetAllAsync();
 
         Task<Plan> AddAsync(Plan plan);
+
+        Task<bool> RemoveAsync(Guid id);
     }
 }

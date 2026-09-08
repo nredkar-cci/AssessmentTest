@@ -1,7 +1,4 @@
 ﻿using AssessmentTest.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AssessmentTest.Domain.Entities
 {

@@ -1,4 +1,5 @@
 ﻿using AssessmentTest.Application.IRepository.IBaseRepository;
+using AssessmentTest.Application.IRepository.IFitnessCoachRepository;
 using AssessmentTest.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace AssessmentTest.Infrastructure.Persistence.Repositories.FitnessCoachRepository
 {
-    public class FitnessCoachRepository
+    public class FitnessCoachRepository : IFitnessCoachRepository
     {
         private readonly IBaseRepository<FitnessCoach> _baseRepository;
 

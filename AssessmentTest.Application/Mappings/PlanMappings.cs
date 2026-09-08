@@ -13,6 +13,7 @@ namespace AssessmentTest.Application.Mappings
         {
             PlanId = plan.Id,
             PlanType = plan.PlanType,
+            PlanName = plan.PlanName,
             Rate = plan.Rate,
             CoachLevel = plan.CoachLevel,
         };
@@ -20,6 +21,7 @@ namespace AssessmentTest.Application.Mappings
         public static Plan ToEntity(this PlanRequest request) => new()
         {
             PlanType = request.PlanType,
+            PlanName = request.PlanName,
             Rate = request.Rate,
             CoachLevel = request.CoachLevel,
         };

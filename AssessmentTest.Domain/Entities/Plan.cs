@@ -9,6 +9,8 @@ namespace AssessmentTest.Domain.Entities
     {
         public PlanType PlanType { get; set; }
 
+        public string? PlanName { get; set; }
+
         public double Rate { get; set; }
 
         //Taking a shortcut here.  Ideally this should be done using another table where I can do 1 - Many. - A

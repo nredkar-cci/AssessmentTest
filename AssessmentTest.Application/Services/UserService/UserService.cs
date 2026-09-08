@@ -29,7 +29,6 @@ namespace AssessmentTest.Application.Services.UserService
         {
 
             var user = await _userRepository.GetByIdAsync(id);
-            await QueueWelcomeEmail(user!);
             return user?.ToResponse();
         }
 

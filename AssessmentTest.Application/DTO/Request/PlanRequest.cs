@@ -13,6 +13,9 @@ namespace AssessmentTest.Application.DTO.Request
         public PlanType PlanType { get; set; }
 
         [Required]
+        public string? PlanName { get; set; }
+
+        [Required]
         public double Rate { get; set; }
 
         [Required]
