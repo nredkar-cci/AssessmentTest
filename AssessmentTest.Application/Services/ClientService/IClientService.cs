@@ -8,10 +8,10 @@ namespace AssessmentTest.Application.Services.ClientService
 {
     public interface IClientService
     {
-        Task<ClientResponse> ConvertUserToClient(ClientRequest clientRequest, Guid currentUserId);
+        Task<ClientResponse?> ConvertUserToClient(ClientRequest clientRequest, Guid currentUserId);
 
         Task<ClientResponse?> GetByIdAsync(Guid id);
 
-        Task<List<ClientResponse>> GetAllAsync();
+        Task<ClientResponse?> ActivatePlan(Guid id);
     }
 }

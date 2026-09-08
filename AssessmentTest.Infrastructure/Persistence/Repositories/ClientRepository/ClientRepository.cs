@@ -22,5 +22,7 @@ namespace AssessmentTest.Infrastructure.Persistence.Repositories.ClientRepositor
         public Task<List<Client>> GetAllAsync() => _baseRepository.GetAllAsync();
 
         public Task<Client> AddAsync(Client client) => _baseRepository.AddAsync(client);
+
+        public Task<Client> UpdateAsync(Client client) => _baseRepository.UpdateAsync(client);
     }
 }

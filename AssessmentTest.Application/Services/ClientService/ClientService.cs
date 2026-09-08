@@ -2,7 +2,9 @@
 using AssessmentTest.Application.DTO.Response;
 using AssessmentTest.Application.IRepository.IClientRepository;
 using AssessmentTest.Application.IRepository.IFitnessCoachRepository;
+using AssessmentTest.Application.IRepository.IPlanRepository;
 using AssessmentTest.Application.IRepository.IUserRepository;
+using AssessmentTest.Application.Mappings;
 using AssessmentTest.Domain.Entities;
 using AssessmentTest.Domain.Enums;
 using System;
@@ -17,20 +19,83 @@ namespace AssessmentTest.Application.Services.ClientService
 
         private readonly IUsersRepository _userRepository;
 
-        public ClientService(IClientRepository clientRepository, IUsersRepository userRepository)
+        private readonly IPlanRepository _planRepository;
+
+        private readonly IFitnessCoachRepository _fitnessCoachRepository;
+
+        public ClientService(IClientRepository clientRepository, IUsersRepository userRepository, IPlanRepository planRepository, IFitnessCoachRepository fitnessCoachRepository)
         {
             _clientRepository = clientRepository;
             _userRepository = userRepository;
+            _planRepository = planRepository;
+            _fitnessCoachRepository = fitnessCoachRepository;
 
         }
 
-        public async Task<ClientResponse> ConvertUserToClient(ClientRequest clientRequest, Guid currentUserId)
+        public async Task<ClientResponse?> ActivatePlan(Guid id)
+        {
+            try
+            {
+                var client = await _clientRepository.GetByIdAsync(id);
+                if (client != null)
+                {
+                    var user = await _userRepository.GetByIdAsync(client.UserId);
+
+
+                    var fitnessCoach = await _fitnessCoachRepository.GetByIdAsync(client.FitnessCoachId ?? new Guid());
+
+                    if (fitnessCoach == null)
+                    {
+                        return null;
+                    }
+
+                    var coach = await _userRepository.GetByIdAsync(fitnessCoach!.UserId);
+
+                    var plan = await _planRepository.GetByIdAsync(client.PlanId ?? new Guid());
+
+                    var expiryDateAdding = DateTime.UtcNow;
+
+                    switch (plan!.PlanType)
+                    { 
+                        case PlanType.PerDay: expiryDateAdding.AddDays(1); break;
+
+                        case PlanType.Monthly: expiryDateAdding.AddMonths(1);break;
+
+                        case PlanType.Yearly: expiryDateAdding.AddYears(1); break;
+
+                    }
+
+                    client.PlanExpiry = expiryDateAdding;
+
+                    await _clientRepository.UpdateAsync(client);
+
+                    if (user != null && coach != null && plan != null && client != null)
+                    {
+                        return client.ToResponse(user, coach, plan);
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return null;
+        }
+
+        public async Task<ClientResponse?> ConvertUserToClient(ClientRequest clientRequest, Guid currentUserId)
         {
             try
             {
                 var user = await _userRepository.GetByIdAsync(clientRequest.UserId ?? currentUserId);
 
-                if (user != null)
+                var fitnessCoach = await _fitnessCoachRepository.GetByIdAsync(clientRequest.FitnessCoachId);
+
+                var coach = await _userRepository.GetByIdAsync(fitnessCoach!.UserId);
+
+                var plan = await _planRepository.GetByIdAsync(clientRequest.PlanId);
+
+                if (user != null && coach != null && plan != null)
                 {
 
                     Client client = new Client
@@ -41,49 +106,53 @@ namespace AssessmentTest.Application.Services.ClientService
                         FitnessCoachId = clientRequest.FitnessCoachId
                     };
 
-                    var createdFitnessCoach = await _clientRepository.AddAsync(client);
-
-                    return createdFitnessCoach.ToResponse(user);
+                    var createdClient = await _clientRepository.AddAsync(client);
+                    
+                
+                    return createdClient.ToResponse(user,coach, plan);
                 }
 
             }
             catch (Exception)
             {
-                //ILogger will be added later.
+                throw;
             }
+
             return null;
 
         }
 
-        public Task<List<ClientResponse>> GetAllAsync()
-        {
-            var fitness = await _fitnessCoachRepository.GetAllAsync();
-
-            List<User> users = await _userRepository.GetAllAsync();
-
-            return fitness
-                .Join(users,
-                      fitnessCoach => fitnessCoach.UserId,
-                      user => user.Id,
-                      (fitnessCoach, user) => fitnessCoach.ToResponse(user))
-                .ToList();
-        }
-
-        public Task<ClientResponse?> GetByIdAsync(Guid id)
+        public async Task<ClientResponse?> GetByIdAsync(Guid id)
         {
             try
             {
-                var fitnessCoach = await _fitnessCoachRepository.GetByIdAsync(id);
-                var user = await _userRepository.GetByIdAsync(fitnessCoach!.UserId);
-
-                if (fitnessCoach != null && user != null)
+                var client = await _clientRepository.GetByIdAsync(id);
+                if (client != null)
                 {
-                    return fitnessCoach.ToResponse(user);
+                    var user = await _userRepository.GetByIdAsync(client.Id);
+
+
+                    var fitnessCoach = await _fitnessCoachRepository.GetByIdAsync(client.FitnessCoachId ?? new Guid());
+
+                    if (fitnessCoach == null) 
+                    {
+                        return null;
+                    }
+                    
+                    var coach = await _userRepository.GetByIdAsync(fitnessCoach!.UserId);
+
+                    var plan = await _planRepository.GetByIdAsync(client.PlanId ?? new Guid());
+
+                    if (user != null && coach != null && plan != null && client != null)
+                    {
+                        return client.ToResponse(user, coach, plan);
+                    }
                 }
+               
             }
             catch (Exception)
             {
-
+                throw;
             }
             return null;
         }

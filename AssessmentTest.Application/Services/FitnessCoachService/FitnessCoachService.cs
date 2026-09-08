@@ -30,7 +30,15 @@ namespace AssessmentTest.Application.Services.FitnessCoachService
 
             try
             {
+                var searchedFitnessCoach = (await _fitnessCoachRepository.GetAllAsync()).Where(x => x.UserId == fitnessCoachRequest.UserId || (fitnessCoachRequest.UserId == null && x.UserId == currentUserId)).ToList().SingleOrDefault();
+                if (searchedFitnessCoach != null)
+                {
+                    throw new Exception("User is already registered as a coach"); 
+                }
+
                 var user = await _userRepository.GetByIdAsync(fitnessCoachRequest.UserId ?? currentUserId);
+
+
 
                 if (user != null)
                 {
@@ -50,7 +58,7 @@ namespace AssessmentTest.Application.Services.FitnessCoachService
 
             }
             catch(Exception) {
-      //ILogger will be added later.
+                throw;
             }
             return null;
             
@@ -84,8 +92,8 @@ namespace AssessmentTest.Application.Services.FitnessCoachService
                 }
             }
             catch (Exception )
-            { 
-            
+            {
+                throw;
             }
             return null;
         }

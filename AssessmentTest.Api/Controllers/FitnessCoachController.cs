@@ -29,8 +29,16 @@ namespace AssessmentTest.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<FitnessCoachResponse>>> GetAll() =>
-           Ok(await _fitnessCoachService.GetAllAsync());
+        public async Task<ActionResult<List<FitnessCoachResponse>>> GetAll()
+        {
+            try
+            {
+                return Ok(await _fitnessCoachService.GetAllAsync());
+            }
+            catch (Exception ex) { 
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 
@@ -39,18 +47,30 @@ namespace AssessmentTest.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<FitnessCoachResponse>> GetById(Guid id)
         {
-            var fitnessCoachResponse = await _fitnessCoachService.GetByIdAsync(id);
-            return fitnessCoachResponse is null ? NotFound() : Ok(fitnessCoachResponse);
+            try
+            {
+                var fitnessCoachResponse = await _fitnessCoachService.GetByIdAsync(id);
+                return fitnessCoachResponse is null ? NotFound() : Ok(fitnessCoachResponse);
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
-        [Authorize(Roles = nameof(Role.SuperAdmin))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UserResponse>> Create(FitnessCoachRequest fitnessCoachRequest)
         {
-            var created = await _fitnessCoachService.ConvertToCoachAsync(fitnessCoachRequest, CurrentUserId);
-            return Ok(created);
+            try
+            {
+                var created = await _fitnessCoachService.ConvertToCoachAsync(fitnessCoachRequest, CurrentUserId);
+                return Ok(created);
+            }
+            catch(Exception e) {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

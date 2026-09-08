@@ -12,5 +12,7 @@ namespace AssessmentTest.Application.IRepository.IClientRepository
         Task<List<Client>> GetAllAsync();
 
         Task<Client> AddAsync(Client client);
+
+        Task<Client> UpdateAsync(Client client);
     }
 }
