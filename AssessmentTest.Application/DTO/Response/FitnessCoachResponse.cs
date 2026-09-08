@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AssessmentTest.Application.DTO.Response
 {
-    public class CoachResponse
+    public class FitnessCoachResponse
     {
         public Guid FitnessCoachId { get; set; }
 

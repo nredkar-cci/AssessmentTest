@@ -9,6 +9,8 @@ namespace AssessmentTest.Application.DTO.Response
     {
        public Guid ClientId {  get; set; }
 
+       public string? ClientName { get; set; }
+
        public string? PlanType { get; set; }
 
        public double? PlanRate { get; set; }

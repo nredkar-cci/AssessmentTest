@@ -16,6 +16,7 @@ namespace AssessmentTest.Api.Controllers
         private readonly IUserService _userService;
         private readonly ICurrentUser _currentUser;
 
+
         public UsersController(IUserService userService, ICurrentUser currentUser)
         {
             _userService = userService;

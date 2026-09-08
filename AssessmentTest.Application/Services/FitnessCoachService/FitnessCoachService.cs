@@ -1,61 +1,62 @@
 ﻿using AssessmentTest.Application.DTO.Request;
 using AssessmentTest.Application.DTO.Response;
-using AssessmentTest.Application.IRepository.IClientRepository;
 using AssessmentTest.Application.IRepository.IFitnessCoachRepository;
+using AssessmentTest.Application.IRepository.IPlanRepository;
 using AssessmentTest.Application.IRepository.IUserRepository;
+using AssessmentTest.Application.Mappings;
 using AssessmentTest.Domain.Entities;
-using AssessmentTest.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AssessmentTest.Application.Services.ClientService
+namespace AssessmentTest.Application.Services.FitnessCoachService
 {
-    public class ClientService : IClientService
+    public class FitnessCoachService : IFitnessCoachService
     {
-        private readonly IClientRepository _clientRepository;
+        private readonly IFitnessCoachRepository _fitnessCoachRepository;
 
         private readonly IUsersRepository _userRepository;
 
-        public ClientService(IClientRepository clientRepository, IUsersRepository userRepository)
+        public FitnessCoachService(IFitnessCoachRepository fitnessCoachRepository, IUsersRepository userRepository)
         {
-            _clientRepository = clientRepository;
+            _fitnessCoachRepository = fitnessCoachRepository;
             _userRepository = userRepository;
 
         }
 
-        public async Task<ClientResponse> ConvertUserToClient(ClientRequest clientRequest, Guid currentUserId)
+        #region Public Methods
+        public async Task<FitnessCoachResponse?> ConvertToCoachAsync(FitnessCoachRequest fitnessCoachRequest, Guid currentUserId)
         {
+
             try
             {
-                var user = await _userRepository.GetByIdAsync(clientRequest.UserId ?? currentUserId);
+                var user = await _userRepository.GetByIdAsync(fitnessCoachRequest.UserId ?? currentUserId);
 
                 if (user != null)
                 {
 
-                    Client client = new Client
+                    FitnessCoach fitnessCoach = new FitnessCoach
                     {
-                        UserId = clientRequest.UserId ?? currentUserId,
-                        PlanId = clientRequest.PlanId,
-                        PlanStatus = PlanStatus.NotStarted,
-                        FitnessCoachId = clientRequest.FitnessCoachId
+                        UserId = fitnessCoachRequest.UserId ?? currentUserId,
+                        CoachLevel = fitnessCoachRequest.CoachLevel,
+                        IsCertified = fitnessCoachRequest.IsCertified,
+                        ExpirenceYears = fitnessCoachRequest.Expirence
                     };
 
-                    var createdFitnessCoach = await _clientRepository.AddAsync(client);
+                    var createdFitnessCoach = await _fitnessCoachRepository.AddAsync(fitnessCoach);
 
                     return createdFitnessCoach.ToResponse(user);
                 }
 
             }
-            catch (Exception)
-            {
-                //ILogger will be added later.
+            catch(Exception) {
+      //ILogger will be added later.
             }
             return null;
-
+            
         }
 
-        public Task<List<ClientResponse>> GetAllAsync()
+        public async Task<List<FitnessCoachResponse>> GetAllAsync()
         {
             var fitness = await _fitnessCoachRepository.GetAllAsync();
 
@@ -67,9 +68,10 @@ namespace AssessmentTest.Application.Services.ClientService
                       user => user.Id,
                       (fitnessCoach, user) => fitnessCoach.ToResponse(user))
                 .ToList();
+          
         }
 
-        public Task<ClientResponse?> GetByIdAsync(Guid id)
+        public async Task<FitnessCoachResponse?> GetByIdAsync(Guid id)
         {
             try
             {
@@ -81,11 +83,12 @@ namespace AssessmentTest.Application.Services.ClientService
                     return fitnessCoach.ToResponse(user);
                 }
             }
-            catch (Exception)
-            {
-
+            catch (Exception )
+            { 
+            
             }
             return null;
         }
+        #endregion
     }
 }
