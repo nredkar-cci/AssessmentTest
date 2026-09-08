@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="AssessmentTest.Api/AssessmentTest.Api.csproj" />
+  <Project Path="AssessmentTest.Application/AssessmentTest.Application.csproj" Id="f36e5877-62ad-4f6f-9103-79e4dab64859" />
+  <Project Path="AssessmentTest.Domain/AssessmentTest.Domain.csproj" Id="364bc7f4-0390-4ea0-b839-ec0193a0301f" />
+  <Project Path="AssessmentTest.Infrastructure/AssessmentTest.Infrastructure.csproj" Id="21104de0-48e9-4d60-a31e-3d5abd7765ed" />
+</Solution>

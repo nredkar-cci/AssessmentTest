@@ -1,0 +1,23 @@
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5240"
+    },
+    "https": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Jwt__Key": "H0Y2l2ftuiWYTivUy8k-Mn5HCD0xmjCLI4ljuSFhAfg",
+        "EmailSettings__Password": "fmmp zvig yddr qcno"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7240;http://localhost:5240"
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}
