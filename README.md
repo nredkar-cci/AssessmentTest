@@ -21,3 +21,5 @@ To solve the given problem with limited time had cut corner on implmenting the c
 # Another point to note:
 I have not created a postman collect but instead  swagger is integrated in the .NET app with authentication. 
 However /openapi/v1.json file in swagger UI can be used to import collection in postman.
+
+# There is residue code of template which has background worker and email functionality. I have not integrated this code in the problem. It can be used for future purpose.
