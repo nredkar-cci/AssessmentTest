@@ -41,6 +41,19 @@ namespace AssessmentTest.Application.Services.FitnessCoachService
                     throw new Exception("User is already registered as a coach"); 
                 }
 
+                // Mimicking a low level certification check instead defining special certification using file or certain criteria table.
+                if (!fitnessCoachRequest.IsCertified) 
+                {
+                    throw new Exception("You are not certified coach");
+                }
+
+                // Rejecting the user enrolling as coach if user is doesn't atleast 2 years expirence
+                if (fitnessCoachRequest.Expirence <= 2)
+                {
+                    throw new Exception("You are not qualified for being a coach");
+                }
+
+
                 var user = await _userRepository.GetByIdAsync(fitnessCoachRequest.UserId ?? currentUserId);
 
 
